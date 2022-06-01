@@ -72,8 +72,8 @@ class _HomePageState extends State<HomePage> {
               child: ScopedBuilder<HomePageStore, SearchMoviesException,
                   HomePageState>(
                 store: homePageStore,
-                onLoading: (_) =>
-                    const Center(child: CircularProgressIndicator()),
+                // onLoading: (_) =>
+                //     const Center(child: CircularProgressIndicator()),
                 onState: (context, HomePageState state) {
                   late List<ResultSearchEntity> fetchedList;
 

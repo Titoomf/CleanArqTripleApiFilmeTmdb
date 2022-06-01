@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomTitleCards extends StatefulWidget {
   final String title;
@@ -38,26 +40,50 @@ class _CustomTitleCardsState extends State<CustomTitleCards> {
       child: Container(
         width: widget.width,
         height: widget.height,
-        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        margin: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           color: Color(0xff0F1122),
         ),
         child: LayoutBuilder(builder: (context, constraints) {
           return Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: constraints.maxWidth * 0.26,
-                height: constraints.minHeight,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+              CachedNetworkImage(
+                imageUrl: 'https://image.tmdb.org/t/p/original${widget.image}',
+                imageBuilder: (context, imageProvider) => Container(
+                  width: constraints.maxWidth * 0.26,
+                  height: constraints.minHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
-                      bottomLeft: Radius.circular(16)),
-                  image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: NetworkImage(
-                        "https://image.tmdb.org/t/p/original/${widget.image}"),
+                      bottomLeft: Radius.circular(16),
+                    ),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                progressIndicatorBuilder: (contex, url, progress) => SizedBox(
+                  width: constraints.maxWidth * 0.26,
+                  height: constraints.minHeight,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xff12162D),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => SizedBox(
+                  width: constraints.maxWidth * 0.26,
+                  height: constraints.minHeight,
+                  child: SvgPicture.asset(
+                    'assets/icons/movie.svg',
+                    color: Colors.grey,
+                    width: constraints.maxWidth * 0.15,
+                    height: constraints.minHeight,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
               ),
